@@ -113,7 +113,7 @@ static void  print_report_init_columns_width (gint table_size,
 						if (new_size > columns_width[i])
 						{
 							columns_width[i] = new_size;
-							//~ printf ("row = %d col = %d columns_width[%d] = %g x_dim = %d\n", row, i, i, columns_width[i], x_dim);
+							printf ("row = %d col = %d columns_width[%d] = %g x_dim = %d\n", row, i, i, columns_width[i], x_dim);
 						}
 					}
 				}
@@ -132,7 +132,7 @@ static void  print_report_init_columns_width (gint table_size,
 						{
 							gtk_widget_get_allocation (child, &allocation);
 							columns_width[i] = 4;
-							//~ printf ("row = %d col = %d columns_width[%d] = %g SEPARATEUR VERTICAL\n", row, i, i, columns_width[i]);
+							printf ("row = %d col = %d columns_width[%d] = %g SEPARATEUR VERTICAL\n", row, i, i, columns_width[i]);
 						}
 					}
 				}
@@ -170,6 +170,8 @@ static gboolean print_report_begin (GtkPrintOperation *operation,
     /* the heigh of a page decrease of 1 line if we use the columns titles */
     page_height = gtk_print_context_get_height (context);
     page_width = gtk_print_context_get_width (context);
+
+	printf("W*H=%f,%f\n", page_width, page_height);
 
 	/* get first the size of the table */
 	gtk_widget_get_preferred_width (table_etat, &minimum_width, &natural_width);
@@ -572,6 +574,11 @@ void print_report_export_pdf (const gchar *pdf_name)
 
 	if (print_settings != NULL)
 		gtk_print_operation_set_print_settings (print, print_settings);
+
+	GtkPageSetup* page_setup = gtk_page_setup_new();
+    gtk_page_setup_set_orientation (page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE); //gtk_print_settings_get_orientation (settings));
+	gtk_print_operation_set_default_page_setup (print, page_setup);
+    g_object_unref(page_setup);
 
 	g_object_set_property (G_OBJECT (print),
 						   "export-filename",
