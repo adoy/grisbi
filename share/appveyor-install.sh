@@ -19,3 +19,4 @@ pacman -S --noconfirm autoconf
 pacman -S --noconfirm automake
 pacman -S --noconfirm autopoint
 pacman -S --noconfirm libtool
+pacman -S --noconfirm gettext
